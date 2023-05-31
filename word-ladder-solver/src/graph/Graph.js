@@ -26,6 +26,17 @@ class Graph{
         let current = startVertex;
         while(current != targetVertex){
             current.setVisited(true);
+            adjacents = current.getAdjList();
+            for(node of adjacents){
+                n = node.getVertexIndex();
+                if(!this.vertices[n].getVisited() && !queue.includes(this.vertices[n])){
+                    queue.push(this.vertices[n]);
+                    this.vertices[n].setPredecessor(current.getIndex());
+                }
+            }
+            if(queue.length == 0){
+                return false;
+            }
         }
     }
 }
