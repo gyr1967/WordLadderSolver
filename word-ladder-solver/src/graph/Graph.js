@@ -40,7 +40,9 @@ class Graph {
       if (queue.length === 0) {
         return false;
       }
+      current = queue.shift();
     }
+    return true;
   }
 }
 

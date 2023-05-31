@@ -75,6 +75,8 @@ export default {
           v = this.graph.getVertex(v.getPredecessor());
         }
         this.stack.push(v.getWord());
+      } else{
+        this.stack = ["No path found"];
       }
     },
     async run(word1, word2) {
