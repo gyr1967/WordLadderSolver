@@ -21,6 +21,11 @@ class Graph{
         for(vertex of this.vertices){
             vertex.setVisited(false);
         }
-        
+
+        let queue = [];
+        let current = startVertex;
+        while(current != targetVertex){
+            current.setVisited(true);
+        }
     }
 }
