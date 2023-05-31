@@ -1,12 +1,18 @@
 <template>
-  <p>word ladder coming soon </p>
+  <div id="app">
+    <h1>Word Ladder Solver</h1>
+    <p>Find the shortest path between two words by changing one letter at a time.</p>
+    <p>Enter two words below to get started.</p>
+    <WordLadder/>
+  </div>
 </template>
 
 <script>
-
+import WordLadder from './components/WordLadder.vue';
 export default {
   name: 'App',
   components: {
+    WordLadder
   }
 }
 </script>

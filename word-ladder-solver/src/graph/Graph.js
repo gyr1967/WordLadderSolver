@@ -1,7 +1,9 @@
+import Vertex from "./Vertex.js";
+
 class Graph {
   constructor(n) {
     this.numVertices = n;
-    this.vertices = [];
+    this.vertices = new Array(n);
     for (let i = 0; i < n; i++) {
       this.vertices[i] = new Vertex(i, null);
     }
@@ -16,17 +18,17 @@ class Graph {
   }
 
   bfs(startVertex, targetVertex) {
-    for (vertex of this.vertices) {
+    for (let vertex of this.vertices) {
       vertex.setVisited(false);
     }
 
     let queue = [];
     let current = startVertex;
-    while (current != targetVertex) {
+    while (current !== targetVertex) {
       current.setVisited(true);
-      adjacents = current.getAdjList();
-      for (node of adjacents) {
-        n = node.getVertexIndex();
+      let adjacents = current.getAdjList();
+      for (let node of adjacents) {
+        let n = node.getVertexIndex();
         if (
           !this.vertices[n].getVisited() &&
           !queue.includes(this.vertices[n])
@@ -35,9 +37,11 @@ class Graph {
           this.vertices[n].setPredecessor(current.getIndex());
         }
       }
-      if (queue.length == 0) {
+      if (queue.length === 0) {
         return false;
       }
     }
   }
 }
+
+export default Graph;

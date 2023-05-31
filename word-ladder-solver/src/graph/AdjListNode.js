@@ -7,3 +7,5 @@ class AdjListNode {
     return this.vertexIndex;
   }
 }
+
+export default AdjListNode;

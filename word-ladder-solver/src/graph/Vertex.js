@@ -1,3 +1,5 @@
+import AdjListNode from './AdjListNode.js';
+
 class Vertex {
   constructor(n, word) {
     this.adjList = [];
@@ -47,3 +49,5 @@ class Vertex {
     return this.word;
   }
 }
+
+export default Vertex;
