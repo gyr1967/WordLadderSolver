@@ -1,5 +1,4 @@
-import Graph from './Graph.js';
-
+import Graph from '../src/graph/Graph.js';
 
 test('BFS should find a path in a graph', () => {
     let graph = new Graph(3);
