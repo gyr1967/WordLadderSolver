@@ -1,8 +1,6 @@
 class AdjListNode {
-  vertexIndex;
-
   constructor(n) {
-    this.vertexInde = n;
+    this.vertexIndex = n;
   }
 
   getVertexIndex() {
