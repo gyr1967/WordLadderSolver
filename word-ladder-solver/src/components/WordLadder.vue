@@ -1,12 +1,24 @@
 <template>
-  <div>
+  <div v-if="loading">
+    <div class="loadingMessage">
+      <p>Loading...</p>
+      <!-- spinning circle -->
+      <div class="loader"></div>
+    </div>
+  </div>
+  <div v-else>
     <input type="text" v-model="word1" placeholder="Word 1" />
     <input type="text" v-model="word2" placeholder="Word 2" />
     <button @click="run(word1, word2)">Run</button>
+    <div v-if="pathFound">
+      <p>Path found!</p>
+      <p>{{ stack.reverse().join(" -> ") }}</p>
+    </div>
   </div>
 </template>
 
 <script>
+import "../assets/WordLadder.css";
 import Graph from "../graph/Graph.js";
 export default {
   name: "WordLadder",
@@ -21,6 +33,7 @@ export default {
       numVertices: 0,
       index1: 0,
       index2: 0,
+      loading: true,
     };
   },
   methods: {
@@ -35,21 +48,17 @@ export default {
       );
       this.numVertices = this.words.length;
       this.graph = new Graph(this.numVertices);
-
+    },
+    async createGraph() {
       let uniqueCounter = 0;
-      this.words.forEach((word) => {
+      for (let word of this.words) {
         this.graph.setVertex(uniqueCounter, word);
-        if (word === this.word1) {
-          this.index1 = uniqueCounter;
-        } else if (word === this.word2) {
-          this.index2 = uniqueCounter;
-        }
         uniqueCounter++;
-      });
+      }
       let i = 0;
-      this.words.forEach((word) => {
+      for (let word of this.words) {
         let j = 0;
-        this.words.forEach((wordTwo) => {
+        for (let wordTwo of this.words) {
           if (i !== j) {
             let mistakesAllowed = 1;
             for (let k = 0; k < word.length; k++) {
@@ -58,9 +67,20 @@ export default {
             if (mistakesAllowed === 0) this.graph.getVertex(i).addToAdjList(j);
           }
           j++;
-        });
+        }
         i++;
-      });
+      }
+    },
+    async assignIndexes() {
+      let uniqueCounter = 0;
+      for (let word of this.words) {
+        if (word === this.word1) {
+          this.index1 = uniqueCounter;
+        } else if (word === this.word2) {
+          this.index2 = uniqueCounter;
+        }
+        uniqueCounter++;
+      }
     },
     async findWordLadder() {
       this.pathFound = this.graph.bfs(
@@ -75,16 +95,24 @@ export default {
           v = this.graph.getVertex(v.getPredecessor());
         }
         this.stack.push(v.getWord());
-      } else{
+      } else {
         this.stack = ["No path found"];
       }
+    },
+    async initialFileFetch() {
+      await this.loadFile();
+      await this.createGraph();
+      this.loading = false;
     },
     async run(word1, word2) {
       this.word1 = word1;
       this.word2 = word2;
-      await this.loadFile();
+      await this.assignIndexes();
       await this.findWordLadder();
     },
+  },
+  beforeMount() {
+    this.initialFileFetch();
   },
 };
 </script>
