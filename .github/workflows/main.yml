@@ -21,8 +21,14 @@ jobs:
         with:
           node-version: 14
 
+      - name: Go to Vue directory
+        run: cd word-ladder-solver
+
       - name: Install dependencies
         run: npm i
+
+      - name: Build
+        run: npm run build
 
       - name: Run tests
         run: npx jest
