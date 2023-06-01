@@ -29,4 +29,4 @@ jobs:
           cd word-ladder-solver
           npm install
           npm run build
-          npx jest
+          npm run test
