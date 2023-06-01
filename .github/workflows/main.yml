@@ -16,25 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 14.x
 
       - name: list files in word-ladder-solver
         run: ls word-ladder-solver
 
-      - name: Go to Vue directory
-        run: cd word-ladder-solver
-
-      - name: print working directory
-        run: pwd
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Run tests
-        run: npx jest
+      - name: Install dependencies, build, and test
+        run: |
+          cd word-ladder-solver
+          npm install
+          npm run build
+          npx jest
