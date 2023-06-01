@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 14
 
+      - name: list files in word-ladder-solver
+        run: ls word-ladder-solver
+
       - name: Go to Vue directory
         run: cd word-ladder-solver
 
