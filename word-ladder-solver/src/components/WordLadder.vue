@@ -7,12 +7,16 @@
     </div>
   </div>
   <div v-else>
-    <input type="text" v-model="word1" placeholder="Word 1" />
-    <input type="text" v-model="word2" placeholder="Word 2" />
-    <button @click="run(word1, word2)">Run</button>
+    <input type="text" v-model="word1" placeholder="Word 1" maxlength="4" />
+    <input type="text" v-model="word2" placeholder="Word 2" maxlength="4" />
+    <button @click="runSolver()">Solve</button>
     <div v-if="pathFound">
       <p>Path found!</p>
-      <p>{{ stack.reverse().join(" -> ") }}</p>
+      <!-- print the stack in reverse, with arrows in between and in all caps -->
+      <p>{{ stack.reverse().join(" -> ").toUpperCase() }}</p>
+    </div>
+    <div v-else>
+      <p>{{ stack[0] }}</p>
     </div>
   </div>
 </template>
@@ -34,6 +38,7 @@ export default {
       index1: 0,
       index2: 0,
       loading: true,
+      validWords: true,
     };
   },
   methods: {
@@ -72,14 +77,21 @@ export default {
       }
     },
     async assignIndexes() {
+      let word1Found = false;
+      let word2Found = false;
       let uniqueCounter = 0;
       for (let word of this.words) {
         if (word === this.word1) {
           this.index1 = uniqueCounter;
+          word1Found = true;
         } else if (word === this.word2) {
           this.index2 = uniqueCounter;
+          word2Found = true;
         }
         uniqueCounter++;
+      }
+      if (!word1Found || !word2Found) {
+        this.validWords = false;
       }
     },
     async findWordLadder() {
@@ -104,11 +116,15 @@ export default {
       await this.createGraph();
       this.loading = false;
     },
-    async run(word1, word2) {
-      this.word1 = word1;
-      this.word2 = word2;
+    async runSolver() {
+      this.word1 = this.word1.toLowerCase();
+      this.word2 = this.word2.toLowerCase();
       await this.assignIndexes();
-      await this.findWordLadder();
+      if (this.validWords) {
+        await this.findWordLadder();
+      } else {
+        this.stack = ["Invalid words"];
+      }
     },
   },
   beforeMount() {
