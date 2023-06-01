@@ -27,8 +27,11 @@ jobs:
       - name: Go to Vue directory
         run: cd word-ladder-solver
 
+      - name: print working directory
+        run: pwd
+
       - name: Install dependencies
-        run: npm i
+        run: npm install
 
       - name: Build
         run: npm run build
