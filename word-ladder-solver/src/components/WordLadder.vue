@@ -2,18 +2,31 @@
   <div v-if="loading">
     <div class="loadingMessage">
       <p>Loading...</p>
-      <!-- spinning circle -->
       <div class="loader"></div>
+      <!-- spinning circle -->
     </div>
   </div>
-  <div v-else>
-    <input type="text" v-model="word1" placeholder="Word 1" maxlength="4" />
-    <input type="text" v-model="word2" placeholder="Word 2" maxlength="4" />
+
+  <div v-else class="wordLadderForm">
+    <input
+      type="text"
+      v-model="word1"
+      placeholder="Word 1"
+      maxlength="4"
+      size="4"
+    />
+    <input
+      type="text"
+      v-model="word2"
+      placeholder="Word 2"
+      maxlength="4"
+      size="4"
+    />
     <button @click="runSolver()">Solve</button>
     <div v-if="pathFound">
       <p>Path found!</p>
-      <!-- print the stack in reverse, with arrows in between and in all caps -->
       <p>{{ stack.reverse().join(" -> ").toUpperCase() }}</p>
+      <!-- stack of predecessors (aka the word ladder)-->
     </div>
     <div v-else>
       <p>{{ stack[0] }}</p>
@@ -45,7 +58,7 @@ export default {
     async fetchFile(url) {
       const response = await fetch(url);
       const text = await response.text();
-      return text.split("\n"); // words are separated by a newline
+      return text.split("\n");
     },
     async loadFile() {
       this.words = await this.fetchFile(

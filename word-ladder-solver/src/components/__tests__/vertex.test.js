@@ -1,5 +1,6 @@
 import Vertex from "../../graph/Vertex";
 import { test, expect } from "vitest";
+
 test('test adjacency lists add properly', () => {
     let vertex = new Vertex('cat');
     let vertex2 = new Vertex('bat');
