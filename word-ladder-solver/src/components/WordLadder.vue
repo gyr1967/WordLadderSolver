@@ -132,6 +132,7 @@ export default {
     async runSolver() {
       this.word1 = this.word1.toLowerCase();
       this.word2 = this.word2.toLowerCase();
+      this.validWords = true;
       await this.assignIndexes();
       if (this.validWords) {
         await this.findWordLadder();
