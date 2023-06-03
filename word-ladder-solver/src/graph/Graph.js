@@ -18,32 +18,35 @@ class Graph {
   }
 
   bfs(startVertex, targetVertex) {
-    for (let vertex of this.vertices) {
-      vertex.setVisited(false);
+    let visited = new Set();
+    for( let v of this.vertices) {
+      v.setVisited(false);
     }
-
     let queue = [];
-    let current = startVertex;
-    while (current !== targetVertex) {
-      current.setVisited(true);
-      let adjacents = current.getAdjList();
-      for (let node of adjacents) {
+    queue.push(startVertex);
+    while(queue.length !== 0){
+      let currentVertex = queue.shift();
+      
+      if(currentVertex === targetVertex) {
+        return true;
+      }
+  
+      let adjacents = currentVertex.getAdjList();
+      for(let node of adjacents) {
         let n = node.getVertexIndex();
-        if (
-          !this.vertices[n].getVisited() &&
-          !queue.includes(this.vertices[n])
-        ) {
-          queue.push(this.vertices[n]);
-          this.vertices[n].setPredecessor(current.getIndex());
+        let nextVertex = this.vertices[n];
+        if(!visited.has(nextVertex)) {
+          visited.add(nextVertex);
+          queue.push(nextVertex);
+          nextVertex.setPredecessor(currentVertex.getIndex());
         }
       }
-      if (queue.length === 0) {
-        return false;
-      }
-      current = queue.shift();
     }
-    return true;
+    
+    return false;
   }
 }
+
+  
 
 export default Graph;

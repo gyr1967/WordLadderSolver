@@ -4,7 +4,6 @@ class Vertex {
   constructor(n, word) {
     this.adjList = [];
     this.index = n;
-    this.visited = false;
     this.word = word;
     this.predecessor = null;
   }
